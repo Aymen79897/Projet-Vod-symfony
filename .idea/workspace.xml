@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="68e3730a-ea30-4f24-b49e-ac8d53f49617" name="Changes" comment="projet" />
+    <list default="true" id="68e3730a-ea30-4f24-b49e-ac8d53f49617" name="Changes" comment="projet">
+      <change afterPath="$PROJECT_DIR$/aaaa" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,7 +28,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/zouay/Documents/GitHub/projet-Oussema-Aymen",
+    "last_opened_file_path": "C:/Users/zouay/Documents/GitHub/projet-Oussema-Aymen/projet-OA",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -39,7 +41,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1674031301096</updated>
-      <workItem from="1674031302244" duration="969000" />
+      <workItem from="1674031302244" duration="2731000" />
     </task>
     <task id="LOCAL-00001" summary="projet">
       <created>1674032237729</created>
