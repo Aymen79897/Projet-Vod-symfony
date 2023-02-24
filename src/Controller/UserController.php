@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\LoginType;
 use App\Form\UserCreateType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class UserController extends AbstractController
 {#[Route('/user_list')]
@@ -36,7 +38,7 @@ class UserController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
     }
-    return $this->render('base.html.twig', [
+    return $this->render('user/UserCreate.html.twig', [
         'form' => $form->createView(),
     ]);
 }
@@ -48,5 +50,22 @@ class UserController extends AbstractController
             $em->flush();
         }
         return $this->redirectToRoute('user_list');
+    }
+    #[Route('/login',name: 'app_user_login')]
+    public function login()
+    {
+        $form = $this->createForm(LoginType::class);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('user/login.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/logout',name: 'app_user_logout')]
+    public function logout()
+    {
+
     }
 }
