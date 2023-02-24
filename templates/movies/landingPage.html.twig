@@ -1,0 +1,114 @@
+{% extends "home/base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/styles/comments.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+{% endblock %}
+{% block content %}
+    <div class="section" style="padding-top: 0;">
+        <div class="hero-slide-item">
+            <img src="{{ video.thumbnail }}" alt="">
+            <div class="overlay"></div>
+            <div class="hero-slide-item-content">
+                <div class="item-content-wrapper">
+                    <div class="item-content-title">
+                        {{ video.title }}
+                    </div>
+
+                    <div class="movie-infos">
+                        <div class="movie-info">
+                            <i class="bx bxs-star"></i>
+                            <span>{{ video.rating }}</span>
+                        </div>
+                        <div class="movie-info">
+                            <i class="bx bxs-time"></i>
+                            <span>{{ video.duration }}</span>
+                        </div>
+                        <div class="movie-info">
+                            <span>{{ video.releaseYear }}</span>
+                        </div>
+                    </div>
+                    <div class="item-content-description">
+                        {{ video.description }}
+                    </div>
+                    <div class="item-action">
+                        <a href="/video/play/{{video.id}}" class="btn btn-hover">
+                            <i class="bx bxs-right-arrow"></i>
+                            <span>Watch now</span>
+                        </a>
+                        <a href="#" class="btn btn-hover">
+                            <i class="bx bxs-heart"></i>
+                            <span> add to favorite</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide-item-image ">
+              <iframe width="560" height="315" src="{{ video.filepath }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="comment-section">
+        <h1>comments</h1>
+        <div class="comments-wrp">
+            <div class="comment-wrp" >
+                <div class="comment c-container" >
+                    <div class="c-controls">
+                        <a class="delete" ><i class='bx bx-trash'></i></a>
+                    </div>
+                    <div class="c-user">
+                        <img src="/film-solid-24.png" alt="" class="usr-img">
+                        <p class="usr-name">maxblagun</p>
+                        <p class="cmnt-at">2 weeks ago</p>
+                    </div>
+                    <p class="c-text">
+                        <span class="c-body">aaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+                    </p>
+                </div>
+            </div>
+        </div> <!--commentS wrapper-->
+        <div class="reply-input c-container">
+            <img src="/film-solid-24.png" alt="" class="usr-img">
+            <textarea class="cmnt-input" placeholder="Add a comment..."></textarea>
+            <button class="bu-primary">SEND</button>
+        </div> <!--reply input-->
+    </div> <!--comment sectio-->
+    <!-- LATEST MOVIES SECTION
+    <div class="section">
+        <div class="container">
+            <div class="section-header">
+                similar movies
+            </div>
+            <div class="movies-slide carousel-nav-center owl-carousel">
+                <a href="#" class="movie-item">
+                    <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
+                    <div class="movie-item-content">
+                        <div class="movie-item-title">
+                            Theatre of the dead
+                        </div>
+                        <div class="movie-infos">
+                            <div class="movie-info">
+                                <i class="bx bxs-star"></i>
+                                <span>9.5</span>
+                            </div>
+                            <div class="movie-info">
+                                <i class="bx bxs-time"></i>
+                                <span>120 mins</span>
+                            </div>
+                            <div class="movie-info">
+                                <span>HD</span>
+                            </div>
+                            <div class="movie-info">
+                                <span>16+</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    -->
+
+
+{% endblock %}

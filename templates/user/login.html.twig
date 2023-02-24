@@ -1,0 +1,35 @@
+{% extends "user/UserCreate.html.twig" %}
+{% block account %}
+
+    <header>Login to account</header>
+    {{ form_start(form) }}
+
+    <div class="input-field">
+
+
+        {{ form_widget(form._username, {'attr': {'class': 'input'}}) }}
+
+        {{ form_label(form._username) }}
+
+    </div>
+    <div class="input-field">
+
+
+        {{ form_widget(form._password, {'attr': {'class': 'input'}}) }}
+
+        {{ form_label(form._password) }}
+
+
+    </div>
+    <div class="input-field ">
+        {{ form_widget(form.submit, {'attr': {'class': 'submit'}}) }}
+
+        {{ form_label(form.submit) }}
+    </div>
+
+    {{ form_end(form) }}
+    <div class="signin">
+        <span>You don't have an account? <a href="/create">Create one here</a></span>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "home/base.html.twig" %}
+{% block head %}
+{{ parent() }}
+    <link rel="stylesheet" href="/styles/liste.css" />
+{% endblock %}
+{% block content %}
+
+        <div style="padding-top: 100px;" class="container" >
+            <div  class="section-header" >
+                movies
+            </div>
+    <div class="liste-item-sm" >
+<!-- MOVIE ITEM -->
+
+
+        {% for video in videos %}
+
+<a href="/video/{{video.id}}" class="movie-item">
+    <img src="{{ video.thumbnail }}" alt="">
+    <div class="movie-item-content">
+        <div class="movie-item-title">
+            {{ video.title }}
+        </div>
+        <div class="movie-infos">
+            <div class="movie-info">
+                <i class="bx bxs-star"></i>
+                <span>{{ video.rating }}</span>
+            </div>
+            <div class="movie-info">
+                <i class="bx bxs-time"></i>
+                <span>{{ video.duration }}</span>
+            </div>
+            <div class="movie-info">
+                <span>{{ video.releaseYear }}</span>
+            </div>
+            <div class="movie-info">
+                <span>16+</span>
+            </div>
+        </div>
+    </div>
+</a>
+            <!-- END MOVIE ITEM -->
+        {% endfor %}
+
+
+
+    </div>
+    </div>
+
+{% endblock %}
