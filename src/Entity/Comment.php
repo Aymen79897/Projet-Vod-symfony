@@ -22,16 +22,12 @@ class Comment
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $datetime = null;
 
-    #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Video $video_id = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Video $video = null;
+
+    #[ORM\ManyToOne(inversedBy: 'Comment')]
+    private ?User $Comment = null;
 
     public function __construct()
     {
@@ -67,29 +63,6 @@ class Comment
         return $this;
     }
 
-    public function getUserId(): ?User
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
-    public function getVideoId(): ?Video
-    {
-        return $this->video_id;
-    }
-
-    public function setVideoId(?Video $video_id): self
-    {
-        $this->video_id = $video_id;
-
-        return $this;
-    }
 
     public function getVideo(): ?Video
     {
@@ -99,6 +72,18 @@ class Comment
     public function setVideo(?Video $video): self
     {
         $this->video = $video;
+
+        return $this;
+    }
+
+    public function getComment(): ?User
+    {
+        return $this->Comment;
+    }
+
+    public function setComment(?User $Comment): self
+    {
+        $this->Comment = $Comment;
 
         return $this;
     }
