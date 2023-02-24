@@ -19,15 +19,8 @@ class Video
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $duration = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $release_year = null;
-
-    #[ORM\ManyToOne(inversedBy: 'videos')]
-    private ?Serie $Serie_id = null;
-
+    #[ORM\Column(length: 255)]
+    private ?string $duration = null;
 
     #[ORM\Column(length: 255)]
     private ?string $filepath = null;
@@ -40,6 +33,18 @@ class Video
 
     #[ORM\OneToMany(mappedBy: 'Video', targetEntity: Favorite::class)]
     private Collection $favorites;
+
+    #[ORM\Column(length: 255)]
+    private ?string $thumbnail = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Title = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $rating = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $releaseYear = null;
 
 
     public function __construct()
@@ -65,30 +70,17 @@ class Video
         return $this;
     }
 
-    public function getDuration(): ?\DateTimeInterface
+    public function getDuration(): ?string
     {
         return $this->duration;
     }
 
-    public function setDuration(\DateTimeInterface $duration): self
+    public function setDuration(string $duration): self
     {
         $this->duration = $duration;
 
         return $this;
     }
-
-    public function getReleaseYear(): ?\DateTimeInterface
-    {
-        return $this->release_year;
-    }
-
-    public function setReleaseYear(\DateTimeInterface $release_year): self
-    {
-        $this->release_year = $release_year;
-
-        return $this;
-    }
-
 
 
     /**
@@ -172,6 +164,54 @@ class Video
                 $favorite->setVideo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(string $thumbnail): self
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->Title;
+    }
+
+    public function setTitle(string $Title): self
+    {
+        $this->Title = $Title;
+
+        return $this;
+    }
+
+    public function getRating(): ?string
+    {
+        return $this->rating;
+    }
+
+    public function setRating(string $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getReleaseYear(): ?string
+    {
+        return $this->releaseYear;
+    }
+
+    public function setReleaseYear(string $releaseYear): self
+    {
+        $this->releaseYear = $releaseYear;
 
         return $this;
     }
