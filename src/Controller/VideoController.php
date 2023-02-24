@@ -15,7 +15,14 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class VideoController extends AbstractController
 {
-    #[Route('/video/upload',name: 'video_upload')]
+    #[Route('/videos', name: 'video_index')]
+    public function index(VideoRepository $videoRepository): Response
+    {
+        return $this->render('home/filmListe.html.twig', [
+            'videos' => $videoRepository->findAll(),
+        ]);
+    }
+    #[Route('/admin/video/upload',name: 'video_upload')]
     public function upload(Request $request,EntityManagerInterface $entityManager): Response
     {
         $video = new Video();
@@ -24,16 +31,20 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $video = $form->getData();
-            $video->setUser($this->getUser());
+            //$video->setUser($this->getUser());
 
             $entityManager->persist($video);
             $entityManager->flush();
-            return $this->redirectToRoute('video_detail', ['id' => $video->getId()]);
+            return $this->redirectToRoute('video_show', ['id' => $video->getId()]);
         }
 
-        return $this->render('video/upload.html.twig', ['form' => $form->createView()]);
+        return $this->render('admin/addVideos.html.twig', ['form' => $form->createView()]);
     }
-    #[Route('/video/{id}',name:"video_detail",methods: ["GET","POST"])]
+    #[Route('/video/{id}', name: "video_show")]
+    public function showvid(Video $video){
+        return $this->render('movies/landingPage.html.twig',['video' => $video]);
+    }
+    #[Route('/video/play/{id}',name:"video_detail",methods: ["GET","POST"])]
     public function show(Video $video, Request $request,EntityManagerInterface $entityManager): Response
     {
         $comment = new Comment();
@@ -50,7 +61,7 @@ class VideoController extends AbstractController
             return $this->redirectToRoute('video_detail', ['id' => $video->getId()]);
         }
 
-        return $this->render('video/show.html.twig', ['video' => $video, 'form' => $commentform->createView()]);
+        return $this->render('movies/videoPage.html.twig', ['video' => $video, 'form' => $commentform->createView()]);
     }
     #[Route('/video/edit/{id}',name: 'video_edit')]
     public function edit(Video $video, Request $request,EntityManagerInterface $entityManager): Response
@@ -65,11 +76,11 @@ class VideoController extends AbstractController
 
         return $this->render('video/edit.html.twig', ['form' => $form->createView()]);
     }
-    #[Route('/video/play/{id}',name: 'video_play')]
+    /*#[Route('/video/play/{id}',name: 'video_play')]
     public function play(Video $video): Response
     {
-        return $this->render('video/play.html.twig', ['video' => $video]);
-    }
+        return $this->render('movies/videoPage.html.twig', ['video' => $video]);
+    }*/
  #[Route('/video/delete/{id}',name: 'video_delete')]
     public function delete(Video $video,EntityManagerInterface $entityManager): Response
     {
