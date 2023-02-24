@@ -2,15 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use App\Repository\VideoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface,PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: VideoRepository::class)]
+class Video
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,27 +17,40 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $username = null;
+    private ?string $description = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    private ?string $duration = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $email = null;
+    private ?string $filepath = null;
 
-    #[ORM\Column]
-    private ?bool $is_banned = False;
-    private  ?string $plainPassword;
-
-
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'video', targetEntity: Comment::class)]
     private Collection $comments;
+
+    #[ORM\ManyToOne(inversedBy: 'Video')]
+    private ?Serie $serie = null;
+
+    #[ORM\OneToMany(mappedBy: 'Video', targetEntity: Favorite::class)]
+    private Collection $favorites;
+
+    #[ORM\Column(length: 255)]
+    private ?string $thumbnail = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Title = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $rating = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $releaseYear = null;
 
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -46,70 +58,48 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getDescription(): ?string
     {
-        return $this->username;
+        return $this->description;
     }
 
-    public function setUsername(string $username): self
+    public function setDescription(string $description): self
     {
-        $this->username = $username;
-
-        return $this;
-    }
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword(string $plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
-    }
-    private array $roles = [];
-
-    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Favorite::class)]
-    private Collection $favorites;
-
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-        return $this;
-    }
-
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getDuration(): ?string
     {
-        return $this->email;
+        return $this->duration;
     }
 
-    public function setEmail(string $email): self
+    public function setDuration(string $duration): self
     {
-        $this->email = $email;
+        $this->duration = $duration;
 
         return $this;
     }
 
-    public function isIsBanned(): ?bool
+
+    /**
+     * @return Collection<int, Favorite>
+     */
+    public function getFavorites(): Collection
     {
-        return $this->is_banned;
+        return $this->favorites;
     }
 
-    public function setIsBanned(bool $is_banned): self
+
+    public function getFilepath(): ?string
     {
-        $this->is_banned = $is_banned;
+        return $this->filepath;
+    }
+
+    public function setFilepath(string $filepath): self
+    {
+        $this->filepath = $filepath;
 
         return $this;
     }
@@ -126,7 +116,7 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setUserId($this);
+            $comment->setVideo($this);
         }
 
         return $this;
@@ -136,52 +126,31 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getUserId() === $this) {
-                $comment->setUserId(null);
+            if ($comment->getVideo() === $this) {
+                $comment->setVideo(null);
             }
         }
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Favorite>
-     */
-
-
-    public function getRoles(): array
+    public function getSerie(): ?Serie
     {
-        $roles = $this->roles;
-
-        // Ensure every user has the ROLE_USER role
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->serie;
     }
 
-
-    public function eraseCredentials()
+    public function setSerie(?Serie $serie): self
     {
-        $this->plainPassword = null;    }
+        $this->serie = $serie;
 
-    public function getUserIdentifier(): string
-    {
-        return $this->getEmail();
-    }
-
-    /**
-     * @return Collection<int, Favorite>
-     */
-    public function getFavorites(): Collection
-    {
-        return $this->favorites;
+        return $this;
     }
 
     public function addFavorite(Favorite $favorite): self
     {
         if (!$this->favorites->contains($favorite)) {
             $this->favorites->add($favorite);
-            $favorite->setUser($this);
+            $favorite->setVideo($this);
         }
 
         return $this;
@@ -191,10 +160,58 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     {
         if ($this->favorites->removeElement($favorite)) {
             // set the owning side to null (unless already changed)
-            if ($favorite->getUser() === $this) {
-                $favorite->setUser(null);
+            if ($favorite->getVideo() === $this) {
+                $favorite->setVideo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(string $thumbnail): self
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->Title;
+    }
+
+    public function setTitle(string $Title): self
+    {
+        $this->Title = $Title;
+
+        return $this;
+    }
+
+    public function getRating(): ?string
+    {
+        return $this->rating;
+    }
+
+    public function setRating(string $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getReleaseYear(): ?string
+    {
+        return $this->releaseYear;
+    }
+
+    public function setReleaseYear(string $releaseYear): self
+    {
+        $this->releaseYear = $releaseYear;
 
         return $this;
     }
