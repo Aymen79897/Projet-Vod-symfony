@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\VideoRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: VideoRepository::class)]
-class Video
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User implements UserInterface,PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,40 +18,26 @@ class Video
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    private ?string $username = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $duration = null;
+    private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $filepath = null;
+    private ?string $email = null;
 
-    #[ORM\OneToMany(mappedBy: 'video', targetEntity: Comment::class)]
-    private Collection $comments;
+    #[ORM\Column]
+    private ?bool $is_banned = False;
+    private  ?string $plainPassword;
 
-    #[ORM\ManyToOne(inversedBy: 'Video')]
-    private ?Serie $serie = null;
 
-    #[ORM\OneToMany(mappedBy: 'Video', targetEntity: Favorite::class)]
-    private Collection $favorites;
 
-    #[ORM\Column(length: 255)]
-    private ?string $thumbnail = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $Title = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $rating = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $releaseYear = null;
 
 
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
-        $this->comments = new ArrayCollection();
+        $this->Comment = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,30 +45,106 @@ class Video
         return $this->id;
     }
 
-    public function getDescription(): ?string
+    public function getUsername(): ?string
     {
-        return $this->description;
+        return $this->username;
     }
 
-    public function setDescription(string $description): self
+    public function setUsername(string $username): self
     {
-        $this->description = $description;
+        $this->username = $username;
+
+        return $this;
+    }
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+    private array $roles = [];
+
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Favorite::class)]
+    private Collection $favorites;
+
+    #[ORM\OneToMany(mappedBy: 'Comment', targetEntity: Comment::class)]
+    private Collection $Comment;
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
 
-    public function getDuration(): ?string
+    public function getEmail(): ?string
     {
-        return $this->duration;
+        return $this->email;
     }
 
-    public function setDuration(string $duration): self
+    public function setEmail(string $email): self
     {
-        $this->duration = $duration;
+        $this->email = $email;
 
         return $this;
     }
 
+    public function isIsBanned(): ?bool
+    {
+        return $this->is_banned;
+    }
+
+    public function setIsBanned(bool $is_banned): self
+    {
+        $this->is_banned = $is_banned;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+
+
+    /**
+     * @return Collection<int, Favorite>
+     */
+
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+
+        // Ensure every user has the ROLE_USER role
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;}
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getEmail();
+    }
 
     /**
      * @return Collection<int, Favorite>
@@ -91,66 +154,11 @@ class Video
         return $this->favorites;
     }
 
-
-    public function getFilepath(): ?string
-    {
-        return $this->filepath;
-    }
-
-    public function setFilepath(string $filepath): self
-    {
-        $this->filepath = $filepath;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Comment>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setVideo($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getVideo() === $this) {
-                $comment->setVideo(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getSerie(): ?Serie
-    {
-        return $this->serie;
-    }
-
-    public function setSerie(?Serie $serie): self
-    {
-        $this->serie = $serie;
-
-        return $this;
-    }
-
     public function addFavorite(Favorite $favorite): self
     {
         if (!$this->favorites->contains($favorite)) {
             $this->favorites->add($favorite);
-            $favorite->setVideo($this);
+            $favorite->setUser($this);
         }
 
         return $this;
@@ -160,58 +168,40 @@ class Video
     {
         if ($this->favorites->removeElement($favorite)) {
             // set the owning side to null (unless already changed)
-            if ($favorite->getVideo() === $this) {
-                $favorite->setVideo(null);
+            if ($favorite->getUser() === $this) {
+                $favorite->setUser(null);
             }
         }
 
         return $this;
     }
 
-    public function getThumbnail(): ?string
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComment(): Collection
     {
-        return $this->thumbnail;
+        return $this->Comment;
     }
 
-    public function setThumbnail(string $thumbnail): self
+    public function addComment(Comment $comment): self
     {
-        $this->thumbnail = $thumbnail;
+        if (!$this->Comment->contains($comment)) {
+            $this->Comment->add($comment);
+            $comment->setComment($this);
+        }
 
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function removeComment(Comment $comment): self
     {
-        return $this->Title;
-    }
-
-    public function setTitle(string $Title): self
-    {
-        $this->Title = $Title;
-
-        return $this;
-    }
-
-    public function getRating(): ?string
-    {
-        return $this->rating;
-    }
-
-    public function setRating(string $rating): self
-    {
-        $this->rating = $rating;
-
-        return $this;
-    }
-
-    public function getReleaseYear(): ?string
-    {
-        return $this->releaseYear;
-    }
-
-    public function setReleaseYear(string $releaseYear): self
-    {
-        $this->releaseYear = $releaseYear;
+        if ($this->Comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getComment() === $this) {
+                $comment->setComment(null);
+            }
+        }
 
         return $this;
     }
