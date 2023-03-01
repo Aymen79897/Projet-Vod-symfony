@@ -15,14 +15,14 @@ class CommentCreateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('_content',TextareaType::class)
-            ->add('user_id', HiddenType::class)
-            ->add('video_id', HiddenType::class)
+            ->add('content',TextareaType::class)
             ->add('submit',SubmitType::class)
         ;
     }
-    public function getBlockPrefix(): string
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        return '';
+        $resolver->setDefaults([
+            'data_class' => Comment::class,
+        ]);
     }
 }

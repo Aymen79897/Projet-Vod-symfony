@@ -8,17 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController{
     #[Route('/', name: 'home')]
-public function index() : Response
-    {
-        return $this->render('home/base.html.twig');
-    }
-
-    /*public function index(VideoRepository $videoRepository): Response
+public function index(VideoRepository $videoRepository) : Response
     {
         $videos= $videoRepository->findAll();
-        return $this->render('video/index.html.twig',
-            ['videos' => $videos]);
-    } */
-
-
+        $username = null;
+        $user = $this->getUser();
+        if ($user) {
+            $username = $user->getUsername();
+        }
+        return $this->render('home/base.html.twig', ['username' => $username,'videos' => $videos]);
+    }
 }

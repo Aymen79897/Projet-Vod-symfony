@@ -18,10 +18,10 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $username = null;
+    private ?string $username ;
 
     #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    private ?string $password ;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -38,6 +38,7 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     {
         $this->favorites = new ArrayCollection();
         $this->Comment = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -45,7 +46,7 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -72,6 +73,9 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'Comment', targetEntity: Comment::class)]
     private Collection $Comment;
+
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Comment::class)]
+    private Collection $comments;
 
     public function setRoles(array $roles): static
     {
@@ -204,5 +208,13 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
     }
 }

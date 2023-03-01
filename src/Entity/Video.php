@@ -25,8 +25,8 @@ class Video
     #[ORM\Column(length: 255)]
     private ?string $filepath = null;
 
-    #[ORM\OneToMany(mappedBy: 'video', targetEntity: Comment::class)]
-    private Collection $comments;
+        #[ORM\OneToMany(mappedBy: 'video', targetEntity: Comment::class)]
+        private Collection $comments;
 
     #[ORM\ManyToOne(inversedBy: 'Video')]
     private ?Serie $serie = null;

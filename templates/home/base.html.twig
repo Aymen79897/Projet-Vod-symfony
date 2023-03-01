@@ -30,7 +30,11 @@
                 <li><a href="/videos">Movies</a></li>
                 <li><a href="#">Series</a></li>
                 <li ><input type="text" class="search-film"><i class='bx bx-search-alt-2'></i></li>
-                <li><a href="/login">Sign in</a></li>
+                {% if username is not null %}
+                    <li><a href="#">{{ username }}</a></li>
+                {% else %}
+                    <li><a href="/login">Sign in</a></li>
+                {% endif %}
 
             </ul>
 

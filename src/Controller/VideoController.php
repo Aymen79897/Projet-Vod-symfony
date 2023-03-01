@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Video;
 use App\Form\CommentCreateType;
 use App\Form\UploadVideoType;
+use App\Repository\CommentRepository;
 use App\Repository\VideoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,8 +19,13 @@ class VideoController extends AbstractController
     #[Route('/videos', name: 'video_index')]
     public function index(VideoRepository $videoRepository): Response
     {
+        $username = null;
+        $user = $this->getUser();
+        if ($user) {
+            $username = $user->getUsername();
+        }
         return $this->render('home/filmListe.html.twig', [
-            'videos' => $videoRepository->findAll(),
+            'videos' => $videoRepository->findAll(), 'username'=> $username
         ]);
     }
     #[Route('/admin/video/upload',name: 'video_upload')]
@@ -42,26 +48,46 @@ class VideoController extends AbstractController
     }
     #[Route('/video/{id}', name: "video_show")]
     public function showvid(Video $video){
-        return $this->render('movies/landingPage.html.twig',['video' => $video]);
+        $username = null;
+        $user = $this->getUser();
+        if ($user) {
+            $username = $user->getUsername();
+        }
+        return $this->render('movies/landingPage.html.twig',['video' => $video,'username'=>$username],  );
     }
     #[Route('/video/play/{id}',name:"video_detail",methods: ["GET","POST"])]
-    public function show(Video $video, Request $request,EntityManagerInterface $entityManager): Response
+    public function show(Video $video, Request $request,EntityManagerInterface $entityManager,CommentRepository $commentRepository): Response
     {
+        $username = null;
+        $user = $this->getUser();
+        if ($user) {
+            $username = $user->getUsername();
+        }
+
         $comment = new Comment();
         $commentform = $this->createForm(CommentCreateType::class);
         $commentform->handleRequest($request);
 
+        $comments = $commentRepository->findBy(['video' => $video]);
+        $usernames = array_map(function($comment) {
+            return $comment->getAuthor();
+        }, $comments);
+
         if ($commentform->isSubmitted() && $commentform->isValid()) {
             $comment = $commentform->getData();
+            $comment->setDatetime(new \DateTime());
             $comment->setVideo($video);
             $comment->setUser($this->getUser());
+            $comment->setAuthor($user->getUsername());
 
             $entityManager->persist($comment);
             $entityManager->flush();
+
+
             return $this->redirectToRoute('video_detail', ['id' => $video->getId()]);
         }
 
-        return $this->render('movies/videoPage.html.twig', ['video' => $video, 'form' => $commentform->createView()]);
+        return $this->render('movies/videoPage.html.twig', ['video' => $video, 'form' => $commentform->createView(),'usernames' => $usernames,'username'=>$username, 'comments' => $comments,]);
     }
     #[Route('/video/edit/{id}',name: 'video_edit')]
     public function edit(Video $video, Request $request,EntityManagerInterface $entityManager): Response
@@ -71,7 +97,7 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            return $this->redirectToRoute('video_detail', ['id' => $video->getId()]);
+            return $this->redirectToRoute('video_show', ['id' => $video->getId()]);
         }
 
         return $this->render('video/edit.html.twig', ['form' => $form->createView()]);
@@ -106,6 +132,8 @@ public function deleteComment(Comment $comment,EntityManagerInterface $entityMan
         if (!$user) {
             return $this->json(['error' => 'You must be logged in to favorite a video.'], 401);
         }
+        $user = ($user instanceof User) ? $user : null;
+
 
         $favorite = $entityManager->getRepository(Favorite::class)->findOneBy([
             'user' => $user,

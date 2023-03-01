@@ -20,14 +20,18 @@ class Comment
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $datetime = null;
+    private ?\DateTimeInterface $datetime;
 
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Video $video = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Comment')]
-    private ?User $Comment = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Author = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?User $User = null;
 
     public function __construct()
     {
@@ -76,14 +80,27 @@ class Comment
         return $this;
     }
 
-    public function getComment(): ?User
+
+    public function getAuthor(): ?string
     {
-        return $this->Comment;
+        return $this->Author;
     }
 
-    public function setComment(?User $Comment): self
+    public function setAuthor(string $Author): self
     {
-        $this->Comment = $Comment;
+        $this->Author = $Author;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }

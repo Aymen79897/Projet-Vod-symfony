@@ -42,7 +42,7 @@ class UserController extends AbstractController
         'form' => $form->createView(),
     ]);
 }
-    public function banUse(User $user, EntityManagerInterface $em)
+    public function banUser(User $user, EntityManagerInterface $em)
     {
         if($this->isGranted('ROLE_ADMIN')) {
             $user->setIsBanned(true);
