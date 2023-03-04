@@ -131,6 +131,11 @@
                         <a href="#" class="nav-link px-0 align-middle">
                             <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
                     </li>
+                    <li>
+                        <form method="POST" action="{{ path('admin_add') }}">
+                            <button type="submit" class="btn btn-primary">Make Admin</button>
+                        </form>
+                    </li>
                 </ul>
                 <hr>
                 <div class="dropdown pb-4">
@@ -160,6 +165,13 @@
             <ul class="list-unstyled">
                 <li><h5>Responsive</h5> shrinks in width, hides text labels and collapses to icons only on mobile</li>
             </ul>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
         </div>
         {% endblock %}
     </div>

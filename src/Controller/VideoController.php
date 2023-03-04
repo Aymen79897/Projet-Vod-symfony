@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+
 use App\Entity\Comment;
 use App\Entity\Favorite;
 use App\Entity\User;
@@ -55,40 +56,44 @@ class VideoController extends AbstractController
         }
         return $this->render('movies/landingPage.html.twig',['video' => $video,'username'=>$username],  );
     }
-    #[Route('/video/play/{id}',name:"video_detail",methods: ["GET","POST"])]
-    public function show(Video $video, Request $request,EntityManagerInterface $entityManager,CommentRepository $commentRepository): Response
-    {
-        $username = null;
-        $user = $this->getUser();
-        if ($user) {
-            $username = $user->getUsername();
+        #[Route('/video/play/{id}',name:"video_detail",methods: ["GET","POST"])]
+        public function show(Video $video, Request $request,EntityManagerInterface $entityManager,CommentRepository $commentRepository): Response
+        {
+
+
+            $comment = new Comment();
+            $commentform = $this->createForm(CommentCreateType::class);
+            $commentform->handleRequest($request);
+
+            $username = null;
+            $user = $this->getUser();
+            if ($user) {
+                $username = $user->getUsername();
+            }
+
+            $comments = $commentRepository->findBy(
+                ['video' => $video],
+                ['datetime' => 'DESC']
+            );
+
+
+            if ($commentform->isSubmitted() && $commentform->isValid()) {
+                $comment = $commentform->getData();
+                $comment->setDatetime(new \DateTime());
+                $comment->setVideo($video);
+                $comment->setUser($this->getUser());
+                if($user){
+                    $comment->setAuthor($user->getUsername());
+                }
+                $entityManager->persist($comment);
+                $entityManager->flush();
+
+
+                return $this->redirectToRoute('video_detail', ['id' => $video->getId()]);
+            }
+
+            return $this->render('movies/videoPage.html.twig', ['video' => $video, 'form' => $commentform->createView(),'username'=>$username, 'comments' => $comments,]);
         }
-
-        $comment = new Comment();
-        $commentform = $this->createForm(CommentCreateType::class);
-        $commentform->handleRequest($request);
-
-        $comments = $commentRepository->findBy(['video' => $video]);
-        $usernames = array_map(function($comment) {
-            return $comment->getAuthor();
-        }, $comments);
-
-        if ($commentform->isSubmitted() && $commentform->isValid()) {
-            $comment = $commentform->getData();
-            $comment->setDatetime(new \DateTime());
-            $comment->setVideo($video);
-            $comment->setUser($this->getUser());
-            $comment->setAuthor($user->getUsername());
-
-            $entityManager->persist($comment);
-            $entityManager->flush();
-
-
-            return $this->redirectToRoute('video_detail', ['id' => $video->getId()]);
-        }
-
-        return $this->render('movies/videoPage.html.twig', ['video' => $video, 'form' => $commentform->createView(),'usernames' => $usernames,'username'=>$username, 'comments' => $comments,]);
-    }
     #[Route('/video/edit/{id}',name: 'video_edit')]
     public function edit(Video $video, Request $request,EntityManagerInterface $entityManager): Response
     {
@@ -97,7 +102,7 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            return $this->redirectToRoute('video_show', ['id' => $video->getId()]);
+            return $this->redirectToRoute('video_detail', ['id' => $video->getId()]);
         }
 
         return $this->render('video/edit.html.twig', ['form' => $form->createView()]);
@@ -114,16 +119,21 @@ class VideoController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('home');
     }
-#[Route('/admin/video/{id}/comment/{commentId}/delete',name: 'video_comment_delete', methods: ["POST","GET"])]
-public function deleteComment(Comment $comment,EntityManagerInterface $entityManager): Response
-{
-    $entityManager->remove($comment);
-    $entityManager->flush();
+#[Route('/comment/{id}',name: 'video_comment_delete', methods: ["POST","GET"])]
+    public function deleteComment(int $id,CommentRepository $commentRepository,EntityManagerInterface $entityManager): Response
+    {
+        $comment = $commentRepository->find($id);
+        if (!$comment) {
+            throw $this->createNotFoundException('Comment not found');
+        }
 
-    $this->addFlash('success', 'The comment has been deleted.');
+        $entityManager->remove($comment);
+        $entityManager->flush();
 
-    return $this->redirectToRoute('video_show', ['id' => $comment->getVideo()->getId()]);
-}
+        $this->addFlash('success', 'The comment has been deleted.');
+
+        return $this->redirectToRoute('video_detail', ['id' => $comment->getVideo()->getId()]);
+    }
     #[Route('/video/{id}/favorite', name: 'video_favorite', methods: ['POST'])]
     public function toggleFavorite(Video $video, EntityManagerInterface $entityManager): Response
     {

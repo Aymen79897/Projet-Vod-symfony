@@ -14,10 +14,9 @@
 <iframe style="position: absolute;top: 0; right: 0;bottom: 0; left: 0;margin: auto;" width="100%" height="100%" src="{{ video.filepath }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
 </div>
-
-
   <main>
     <div class="comment-section">
+        {% if app.user %}
         <div class="reply-input c-container">
             <img src="/film-solid-24.png" alt="" class="usr-img">
             {{ form_start(form) }}
@@ -26,16 +25,21 @@
             {{ form_widget(form.submit, { 'attr': {'class': 'bu-primary'} }) }}
             {{ form_end(form) }}
         </div> <!--reply input-->
+        {% else %}
+            <p>You need to <a href="{{ path('app_user_login') }}"> <u>log in</u> </a> to comment.</p>
+        {% endif %}
         {% for comment in comments %}
             <div class="comment-wrp">
             <div class="comment c-container">
-                <div class="c-controls">
-                    <a  class="delete"><img src="images/icon-delete.svg" alt="" class="control-icon">Delete</a>
-                    <a  class="edit"><img src="images/icon-edit.svg" alt="" class="control-icon">Edit</a>
-                </div>
+                    <div class="c-controls">
+                        {% if app.user and app.user == comment.user %}
+                            <a href="{{ path('video_comment_delete', {id: comment.id}) }}" onclick="return confirm('Are you sure you want to delete this comment ?')">delete</a>
+                        {% endif %}
+                    </div>
                 <div class="c-user">
                     <img src="/film-solid-24.png" alt="" class="usr-img">
                     <p class="usr-name">{{ comment.author }}</p>
+
                     <p class="cmnt-at">{{ comment.datetime|date('F j, Y, g:i a') }}</p>
                 </div>
                 <p class="c-text">

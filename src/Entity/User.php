@@ -66,7 +66,8 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     {
         $this->plainPassword = $plainPassword;
     }
-    private array $roles = [];
+    #[ORM\Column(type: 'json')]
+    private  $roles = [];
 
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Favorite::class)]
     private Collection $favorites;
