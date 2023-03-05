@@ -14,10 +14,21 @@
 
         <div class="form-group row mb-3">
             <div class="col-sm-4">
+                <div class="mb-3">
                 {{ form_label(form.thumbnail) }}
 
                 {{ form_widget(form.thumbnail, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                {{ form_label(form.poster) }}
 
+                {{ form_widget(form.poster, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                {{ form_label(form.trailer) }}
+
+                {{ form_widget(form.trailer, {'attr': {'class': 'form-control'}}) }}
+                </div>
             </div>
 
             <div class="col-sm-8">
@@ -35,6 +46,21 @@
                     {{ form_widget(form.duration, {'attr': {'class': 'form-control'}}) }}
 
                 </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="col-md-6">
+                        {{ form_label(form.ageRating) }}
+
+                        {{ form_widget(form.ageRating, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="col-md-6">
+
+                        {{ form_label(form.resolutions) }}
+
+                        {{ form_widget(form.resolutions, {'attr': {'class': 'form-control'}}) }}
+
+                    </div>
                 </div>
                 <div class="form-group row mb-3">
                     <div class="col-md-6">
@@ -85,5 +111,4 @@
 
 
 {% endblock %}
-
 
