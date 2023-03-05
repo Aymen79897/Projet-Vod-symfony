@@ -21,6 +21,8 @@ class UploadVideoType extends AbstractType
             ->add('title',TextType::class)
             ->add('filepath',TextType::class)
             ->add('thumbnail',TextType::class)
+            ->add('poster',TextType::class)
+            ->add('trailer',TextType::class)
             ->add('description',TextareaType::class)
             ->add('rating', NumberType::class, [
                 'scale' => 1,
@@ -29,6 +31,8 @@ class UploadVideoType extends AbstractType
             ])
             ->add('duration', TextType::class )
             ->add('releaseYear',TextType::class)
+            ->add('ageRating',TextType::class)
+            ->add('resolutions',TextType::class)
             ->add('submit',SubmitType::class)
         ;
     }
