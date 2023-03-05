@@ -28,6 +28,9 @@ class Video
     #[ORM\OneToMany(mappedBy: 'video', targetEntity: Comment::class)]
     private Collection $comments;
 
+    #[ORM\ManyToOne(inversedBy: 'Video')]
+    private ?Serie $serie = null;
+
     #[ORM\OneToMany(mappedBy: 'Video', targetEntity: Favorite::class)]
     private Collection $favorites;
 
@@ -43,8 +46,17 @@ class Video
     #[ORM\Column(length: 255)]
     private ?string $releaseYear = null;
 
-    #[ORM\ManyToOne(inversedBy: 'video')]
-    private ?Serie $serie = null;
+    #[ORM\Column(length: 255)]
+    private ?string $trailer = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $poster = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ageRating = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $resolutions = null;
 
 
     public function __construct()
@@ -134,7 +146,17 @@ class Video
         return $this;
     }
 
+    public function getSerie(): ?Serie
+    {
+        return $this->serie;
+    }
 
+    public function setSerie(?Serie $serie): self
+    {
+        $this->serie = $serie;
+
+        return $this;
+    }
 
     public function addFavorite(Favorite $favorite): self
     {
@@ -182,12 +204,12 @@ class Video
         return $this;
     }
 
-    public function getRating(): ?string
+    public function getRating(): ?float
     {
         return $this->rating;
     }
 
-    public function setRating(string $rating): self
+    public function setRating(float $rating): self
     {
         $this->rating = $rating;
 
@@ -206,14 +228,50 @@ class Video
         return $this;
     }
 
-    public function getSerie(): ?Serie
+    public function getTrailer(): ?string
     {
-        return $this->serie;
+        return $this->trailer;
     }
 
-    public function setSerie(?Serie $serie): self
+    public function setTrailer(string $trailer): self
     {
-        $this->serie = $serie;
+        $this->trailer = $trailer;
+
+        return $this;
+    }
+
+    public function getPoster(): ?string
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(string $poster): self
+    {
+        $this->poster = $poster;
+
+        return $this;
+    }
+
+    public function getAgeRating(): ?string
+    {
+        return $this->ageRating;
+    }
+
+    public function setAgeRating(string $ageRating): self
+    {
+        $this->ageRating = $ageRating;
+
+        return $this;
+    }
+
+    public function getResolutions(): ?string
+    {
+        return $this->resolutions;
+    }
+
+    public function setResolutions(string $resolutions): self
+    {
+        $this->resolutions = $resolutions;
 
         return $this;
     }
