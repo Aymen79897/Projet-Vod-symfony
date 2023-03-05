@@ -33,6 +33,18 @@ class Serie
     #[ORM\OneToMany(mappedBy: 'serie', targetEntity: Video::class)]
     private Collection $video;
 
+    #[ORM\Column(length: 255)]
+    private ?string $trailer = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $poster = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ageRating = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $resolution = null;
+
 
 
     public function __construct()
@@ -131,6 +143,54 @@ class Serie
                 $video->setSerie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTrailer(): ?string
+    {
+        return $this->trailer;
+    }
+
+    public function setTrailer(string $trailer): self
+    {
+        $this->trailer = $trailer;
+
+        return $this;
+    }
+
+    public function getPoster(): ?string
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(string $poster): self
+    {
+        $this->poster = $poster;
+
+        return $this;
+    }
+
+    public function getAgeRating(): ?string
+    {
+        return $this->ageRating;
+    }
+
+    public function setAgeRating(string $ageRating): self
+    {
+        $this->ageRating = $ageRating;
+
+        return $this;
+    }
+
+    public function getResolution(): ?string
+    {
+        return $this->resolution;
+    }
+
+    public function setResolution(string $resolution): self
+    {
+        $this->resolution = $resolution;
 
         return $this;
     }
