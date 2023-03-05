@@ -25,6 +25,10 @@ class SerieType extends AbstractType
             ])
             ->add('releaseYear', NumberType::class)
             ->add('cover',TextType::class)
+            ->add('poster',TextType::class)
+            ->add('trailer',TextType::class)
+            ->add('ageRating',TextType::class)
+            ->add('resolution',TextType::class)
             ->add('submit', SubmitType::class)
         ;
     }
