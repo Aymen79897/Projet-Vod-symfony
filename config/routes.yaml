@@ -3,3 +3,7 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+admin_series_create:
+    path: /admin/serie/create
+    controller: App\Controller\SerieController::create
+    methods: ['GET', 'POST']

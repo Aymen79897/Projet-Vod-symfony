@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +17,10 @@ class LoginType extends AbstractType
     {
         $builder
             ->add('_username',TextType::class)
-            ->add('_password',TextType::class)
+            ->add('_password',PasswordType::class, [
+                'attr' => [
+                'autocomplete' => 'new-password',],
+            ])
             ->add('submit',SubmitType::class)
         ;
     }

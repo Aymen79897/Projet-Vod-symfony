@@ -12,7 +12,7 @@ class HomeController extends AbstractController{
     #[Route('/', name: 'home')]
 public function index(VideoRepository $videoRepository) : Response
     {
-        $videos= $videoRepository->findAll();
+        $videos = $videoRepository->findBy([], ['rating' => 'DESC'], 5);
         $username = null;
         $user = $this->getUser();
         if ($user) {

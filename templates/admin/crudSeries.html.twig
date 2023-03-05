@@ -1,0 +1,26 @@
+{% block body %}
+    <h1>Series</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Release Year</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for serie in series %}
+            <tr>
+                <td>{{ serie.name }}</td>
+                <td>{{ serie.description }}</td>
+                <td>{{ serie.releaseYear }}</td>
+                <td>
+                    <a href="{{ path('serie_show_videos', {'id': serie.id}) }}">View</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

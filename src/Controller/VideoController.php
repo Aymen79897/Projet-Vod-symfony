@@ -38,7 +38,6 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $video = $form->getData();
-            //$video->setUser($this->getUser());
 
             $entityManager->persist($video);
             $entityManager->flush();

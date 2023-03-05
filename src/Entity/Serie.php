@@ -18,14 +18,26 @@ class Serie
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $cover = null;
+
+    #[ORM\Column]
+    private ?float $rating = null;
+
+    #[ORM\Column]
+    private ?int $releaseYear = null;
+
     #[ORM\OneToMany(mappedBy: 'serie', targetEntity: Video::class)]
-    private Collection $Video;
+    private Collection $video;
 
 
 
     public function __construct()
     {
-        $this->Video = new ArrayCollection();
+        $this->video = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -44,18 +56,67 @@ class Serie
 
         return $this;
     }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCover(): ?string
+    {
+        return $this->cover;
+    }
+
+    public function setCover(string $cover): self
+    {
+        $this->cover = $cover;
+
+        return $this;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(float $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getReleaseYear(): ?int
+    {
+        return $this->releaseYear;
+    }
+
+    public function setReleaseYear(int $releaseYear): self
+    {
+        $this->releaseYear = $releaseYear;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Video>
      */
     public function getVideo(): Collection
     {
-        return $this->Video;
+        return $this->video;
     }
 
     public function addVideo(Video $video): self
     {
-        if (!$this->Video->contains($video)) {
-            $this->Video->add($video);
+        if (!$this->video->contains($video)) {
+            $this->video->add($video);
             $video->setSerie($this);
         }
 
@@ -64,7 +125,7 @@ class Serie
 
     public function removeVideo(Video $video): self
     {
-        if ($this->Video->removeElement($video)) {
+        if ($this->video->removeElement($video)) {
             // set the owning side to null (unless already changed)
             if ($video->getSerie() === $this) {
                 $video->setSerie(null);

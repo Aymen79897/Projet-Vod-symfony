@@ -25,11 +25,8 @@ class Video
     #[ORM\Column(length: 255)]
     private ?string $filepath = null;
 
-        #[ORM\OneToMany(mappedBy: 'video', targetEntity: Comment::class)]
-        private Collection $comments;
-
-    #[ORM\ManyToOne(inversedBy: 'Video')]
-    private ?Serie $serie = null;
+    #[ORM\OneToMany(mappedBy: 'video', targetEntity: Comment::class)]
+    private Collection $comments;
 
     #[ORM\OneToMany(mappedBy: 'Video', targetEntity: Favorite::class)]
     private Collection $favorites;
@@ -40,11 +37,14 @@ class Video
     #[ORM\Column(length: 255)]
     private ?string $Title = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $rating = null;
+    #[ORM\Column]
+    private ?float $rating = null;
 
     #[ORM\Column(length: 255)]
     private ?string $releaseYear = null;
+
+    #[ORM\ManyToOne(inversedBy: 'video')]
+    private ?Serie $serie = null;
 
 
     public function __construct()
@@ -134,17 +134,7 @@ class Video
         return $this;
     }
 
-    public function getSerie(): ?Serie
-    {
-        return $this->serie;
-    }
 
-    public function setSerie(?Serie $serie): self
-    {
-        $this->serie = $serie;
-
-        return $this;
-    }
 
     public function addFavorite(Favorite $favorite): self
     {
@@ -212,6 +202,18 @@ class Video
     public function setReleaseYear(string $releaseYear): self
     {
         $this->releaseYear = $releaseYear;
+
+        return $this;
+    }
+
+    public function getSerie(): ?Serie
+    {
+        return $this->serie;
+    }
+
+    public function setSerie(?Serie $serie): self
+    {
+        $this->serie = $serie;
 
         return $this;
     }
