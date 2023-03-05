@@ -14,20 +14,30 @@
 
         <div class="form-group row mb-3">
             <div class="col-sm-4">
+                <div class="mb-3">
                 {{ form_label(form.cover) }}
 
                 {{ form_widget(form.cover, {'attr': {'class': 'form-control'}}) }}
-
             </div>
+            <div class="mb-3">
+                {{ form_label(form.poster) }}
 
+                {{ form_widget(form.poster, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.trailer) }}
+
+                {{ form_widget(form.trailer, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            </div>
             <div class="col-sm-8">
-                <div class="form-group row mb-3">
-                    <div class="col-md-6">
+
+                    <div class="mb-3">
                         {{ form_label(form.name) }}
 
                         {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                </div>
+
                 <div class="form-group row mb-3">
                     <div class="col-md-6">
                         {{ form_label(form.rating) }}
@@ -41,6 +51,21 @@
                         {{ form_label(form.releaseYear) }}
 
                         {{ form_widget(form.releaseYear, {'attr': {'class': 'form-control'}}) }}
+
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="col-md-6">
+                        {{ form_label(form.ageRating) }}
+
+                        {{ form_widget(form.ageRating, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="col-md-6">
+
+                        {{ form_label(form.resolution) }}
+
+                        {{ form_widget(form.resolution, {'attr': {'class': 'form-control'}}) }}
 
                     </div>
                 </div>
