@@ -1,0 +1,13 @@
+{% block body %}
+    <h1>All Videos</h1>
+
+    {% for video in videos %}
+        <div>
+            <h2>{{ video.title }}</h2>
+            <p>{{ video.description }}</p>
+            <form action="{{ path('serie_add_video', {'serieId': serie.id, 'videoId': video.id}) }}" method="post">
+                <button type="submit">Add to {{ serie.name }}</button>
+            </form>
+        </div>
+    {% endfor %}
+{% endblock %}
