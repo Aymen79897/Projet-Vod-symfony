@@ -21,17 +21,32 @@
 <div class="nav-wrapper">
     <div class="container">
         <div class="nav">
-            <a href="#" class="logo">
-               <span>name</span>
+            <a href="/" class="logo">
+                <div class="center">
+                    <h1>
+                        <span>chiller</span>
+
+                        <span>chiller</span>
+                        <span>chiller</span>
+
+                    </h1>
+                </div>
             </a>
             <ul class="nav-menu" id="nav-menu" >
 
                 <li><a href="/">Home</a></li>
                 <li><a href="/videos">Movies</a></li>
                 <li><a href="/series">Series</a></li>
-                <li ><input type="text" class="search-film"><i class='bx bx-search-alt-2'></i></li>
+                <li style="position: relative;display: inline-block;"><i class='bx bx-search'style="position: absolute;left: 10px;top: 50%;transform: translateY(-50%);font-size: 18px;color: #CED2D6;"></i><input type="text" class="search-film" style="padding-left: 30px;color: #F5F5F5;" placeholder="Search"></li>
                 {% if username is not null %}
-                    <li><a href="#">{{ username }}</a></li>
+                    <li><div class="dropdown">
+                        <a class="dropbtn"><i class='bx bx-user'></i>{{ username }}</a>
+                        <div style="border-radius: 8px" class="dropdown-content">
+                            <a href="#">account</a>
+                            <a href="#">admin page</a>
+                            <a href="#">logout</a>
+                        </div>
+                    </div></li>
                 {% else %}
                     <li><a href="/login">Sign in</a></li>
                 {% endif %}
@@ -52,6 +67,7 @@
     <!-- HERO SLIDE -->
     <div class="hero-slide">
         <div class="owl-carousel carousel-nav-center" id="hero-carousel">
+            <!-- SLIDE ITEM -->
             {% for video in videos %}
                 <!-- SLIDE ITEM -->
                 <div class="hero-slide-item">
@@ -92,9 +108,7 @@
                 </div>
                 <!-- END SLIDE ITEM -->
             {% endfor %}
-
-
-
+            <!-- END SLIDE ITEM -->
         </div>
     </div>
     <!-- END HERO SLIDE -->
@@ -110,7 +124,7 @@
         <div class="movies-slide carousel-nav-center owl-carousel">
             <!-- MOVIE ITEM -->
             <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
+                <img src="https://cdn.shopify.com/s/files/1/0037/8008/3782/products/IMG_7259_1024x1024@2x.jpg?v=1640349274" alt="">
                 <div class="movie-item-content">
                     <div class="movie-item-title">
                         Theatre of the dead
@@ -136,7 +150,7 @@
             <!-- END MOVIE ITEM -->
             <!-- MOVIE ITEM -->
             <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
+                <img src="https://m.media-amazon.com/images/M/MV5BMTAyMjQ3OTAxMzNeQTJeQWpwZ15BbWU4MDU0NzA1MzAx._V1_FMjpg_UX1000_.jpg" alt="">
                 <div class="movie-item-content">
                     <div class="movie-item-title">
                         Transformer
@@ -162,7 +176,7 @@
             <!-- END MOVIE ITEM -->
             <!-- MOVIE ITEM -->
             <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
+                <img src="https://fr.web.img6.acsta.net/pictures/21/08/10/12/20/4633954.jpg" alt="">
                 <div class="movie-item-content">
                     <div class="movie-item-title">
                         Resident Evil
@@ -732,21 +746,26 @@
             <div class="col-4 col-md-6 col-sm-12">
                 <div class="content">
                     <a href="#" class="logo">
-                       <span class="main-color">name</span>
+                        <div class="center" style="top: 60px">
+                            <h1>
+                                <span>chiller</span>
+                                <span>chiller</span>
+                                <span>chiller</span>
+
+                            </h1>
+                        </div>
                     </a>
+                    <br>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut veniam ex quos hic id nobis beatae earum sapiente! Quod ipsa exercitationem officiis non error illum minima iusto et. Dolores, quibusdam?
-                    </p>
+                        <br>
+                        Our website is the perfect solution for all movie lovers and series enthusiasts who are looking for a platform to access a wide selection of films and TV series anytime and anywhere.                    </p>
                     <div class="social-list">
                         <a href="#" class="social-item">
-                            <i class="bx bxl-facebook"></i>
-                        </a>
+                            <i class='bx bxl-facebook-circle'></i>                        </a>
                         <a href="#" class="social-item">
-                            <i class="bx bxl-twitter"></i>
-                        </a>
+                            <i class='bx bxl-twitter' ></i>                        </a>
                         <a href="#" class="social-item">
-                            <i class="bx bxl-instagram"></i>
-                        </a>
+                            <i class='bx bxl-instagram-alt' ></i>                        </a>
                     </div>
                 </div>
             </div>
@@ -754,7 +773,7 @@
                 <div class="row">
                     <div class="col-3 col-md-6 col-sm-6">
                         <div class="content">
-                            <p><b>Flix</b></p>
+                            <p><b>name</b></p>
                             <ul class="footer-menu">
                                 <li><a href="#">About us</a></li>
                                 <li><a href="#">My profile</a></li>
@@ -765,40 +784,23 @@
                     </div>
                     <div class="col-3 col-md-6 col-sm-6">
                         <div class="content">
-                            <p><b>Browse</b></p>
+                            <p><b>backend developer</b></p>
                             <ul class="footer-menu">
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">My profile</a></li>
-                                <li><a href="#">Pricing plans</a></li>
-                                <li><a href="#">Contacts</a></li>
+                                <li><a href="#" >Aymen</a></li>
+                                <li><a href="#" target="_blank">My profile</a></li>
+                                <li><a href="#" target="_blank">Pricing plans</a></li>
+                                <li><a href="mailto:mohamed-aymen.zouaoui@ecole-hexagone.com">Contacts</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-3 col-md-6 col-sm-6">
                         <div class="content">
-                            <p><b>Help</b></p>
+                            <p><b>front end developer</b></p>
                             <ul class="footer-menu">
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">My profile</a></li>
-                                <li><a href="#">Pricing plans</a></li>
-                                <li><a href="#">Contacts</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-3 col-md-6 col-sm-6">
-                        <div class="content">
-                            <p><b>Download app</b></p>
-                            <ul class="footer-menu">
-                                <li>
-                                    <a href="#">
-                                        <img src="./images/google-play.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="./images/app-store.png" alt="">
-                                    </a>
-                                </li>
+                                <li><a href="#" >Oussema</a></li>
+                                <li><a href="https://www.linkedin.com/in/oussema-boubaker-847561230" target="_blank">My profile</a></li>
+                                <li><a href="https://twitter.com/OussemaBbkr7" target="_blank">Twitter</a></li>
+                                <li><a href="mailto:oussema.boubaker@ecole-hexagone.com">Contacts</a></li>
                             </ul>
                         </div>
                     </div>
@@ -820,6 +822,19 @@
 <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/home.js"></script>
+<script>
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === 'block') {
+                    openDropdown.style.display = 'none';
+                }
+            }
+        }
+    }
+</script>
     <!-- OWL CAROUSEL -->
 
 
