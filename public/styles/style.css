@@ -106,7 +106,7 @@ i{
     color: #5d5076;
 }
 .input-field .input:focus, .input-field .input:valid{
-    border-bottom: 1px solid #743ae1;
+    border-bottom: 1px solid #221f1f;
 }
 .submit{
     border: none;
@@ -117,7 +117,7 @@ i{
     transition: .4s;
 }
 .submit:hover{
-    background: rgba(37, 95, 156,0.9);
+    background: #221f1f;
     color: #fff;
 }
 .signin{
