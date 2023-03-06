@@ -1,0 +1,97 @@
+{% extends "home/base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/styles/liste.css" />
+{% endblock %}
+{% block content %}
+    <div style="padding-top: 100px;" class="container" >
+        <div  class="section-header" >
+            Edite account
+        </div>
+        <div class="col-md-6 ">
+            <div >
+
+                    {{ form_start(form) }}
+                    <div >
+
+                        {{ form_widget(form.email, {'attr': {'class': 'input'}}) }}
+
+                        {{ form_label(form.email) }}
+                    </div>
+                    <div >
+
+
+                        {{ form_widget(form.username, {'attr': {'class': 'input'}}) }}
+
+                        {{ form_label(form.username) }}
+
+                    </div>
+                    <div >
+
+
+                        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'input'}}) }}
+
+                        {{ form_label(form.plainPassword.first) }}
+
+
+                    </div>
+                    <div >
+
+
+                        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'input'}}) }}
+
+                        {{ form_label(form.plainPassword.second) }}
+
+
+                    </div>
+                    <div >
+                        {{ form_widget(form.submit, {'attr': {'class': 'submit'}}) }}
+
+                        {{ form_label(form.submit) }}
+                    </div>
+
+                    {{ form_end(form) }}
+
+            </div>
+        </div>
+        <div  class="section-header" >
+            Favorite
+        </div>
+    <div class="liste-item-sm" >
+        <!-- MOVIE ITEM -->
+
+
+        {% for video in videos %}
+
+            <a href="/video/{{video.id}}" class="movie-item">
+                <img src="{{ video.poster }}" alt="">
+                <div class="movie-item-content">
+                    <div class="movie-item-title">
+                        {{ video.title }}
+                    </div>
+                    <div class="movie-infos">
+                        <div class="movie-info">
+                            <i class="bx bxs-star"></i>
+                            <span>{{ video.rating }}</span>
+                        </div>
+                        <div class="movie-info">
+                            <i class="bx bxs-time"></i>
+                            <span>{{ video.duration }}</span>
+                        </div>
+                        <div class="movie-info">
+                            <span>{{ video.releaseYear }}</span>
+                        </div>
+                        <div class="movie-info">
+                            <span>{{ video.ageRating }}</span>
+                        </div>
+                        <div class="movie-info">
+                            <span>{{ video.resolutions }}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!-- END MOVIE ITEM -->
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}
