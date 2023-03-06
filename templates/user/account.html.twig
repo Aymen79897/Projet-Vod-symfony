@@ -6,62 +6,26 @@
 {% block content %}
     <div style="padding-top: 100px;" class="container" >
         <div  class="section-header" >
-            Edite account
+            Account details
         </div>
         <div class="col-md-6 ">
             <div >
-
-                    {{ form_start(form) }}
-                    <div >
-
-                        {{ form_widget(form.email, {'attr': {'class': 'input'}}) }}
-
-                        {{ form_label(form.email) }}
-                    </div>
-                    <div >
-
-
-                        {{ form_widget(form.username, {'attr': {'class': 'input'}}) }}
-
-                        {{ form_label(form.username) }}
-
-                    </div>
-                    <div >
-
-
-                        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'input'}}) }}
-
-                        {{ form_label(form.plainPassword.first) }}
-
-
-                    </div>
-                    <div >
-
-
-                        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'input'}}) }}
-
-                        {{ form_label(form.plainPassword.second) }}
-
-
-                    </div>
-                    <div >
-                        {{ form_widget(form.submit, {'attr': {'class': 'submit'}}) }}
-
-                        {{ form_label(form.submit) }}
-                    </div>
-
-                    {{ form_end(form) }}
-
+                <h4>Username:   {{ app.user.username }}</h4>
+                <br>
+                <h4>Email:  {{ app.user.email }}</h4>
             </div>
         </div>
+        <br>
+        <br>
         <div  class="section-header" >
-            Favorite
+            Favorites
         </div>
     <div class="liste-item-sm" >
         <!-- MOVIE ITEM -->
 
 
-        {% for video in videos %}
+        {% for favorite in favorites %}
+            {% set video = favorite.video %}
 
             <a href="/video/{{video.id}}" class="movie-item">
                 <img src="{{ video.poster }}" alt="">

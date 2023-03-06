@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\LoginType;
 use App\Form\UserCreateType;
 use App\Repository\UserRepository;
+use App\Repository\VideoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,5 +87,19 @@ class UserController extends AbstractController
     public function banished(): Response
     {
     return $this->render('user/banned.html.twig');
+    }
+    #[Route('/account/{id}', name: 'account')]
+    public function account(Request $request, VideoRepository $videoRepository,EntityManagerInterface $entityManager): Response
+    {
+        $username = null;
+        $user = $this->getUser();
+        if ($user) {
+            $username = $user->getUsername();}
+
+        $favorites = $user->getFavorites();
+        return $this->render('user/account.html.twig', [
+            'favorites' => $favorites,
+            'username' => $username
+        ]);
     }
 }
