@@ -21,7 +21,7 @@
             {% for video in videos %}
 
                     <a href="{{ path('video_show', {'id': video.id}) }}" class="movie-item">
-                        <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                        <img src="{{ video.poster }}" alt="{{ video.title }}">
                         <div class="movie-item-content">
                             <div class="movie-item-title">
                                 {{ video.title }}
@@ -36,10 +36,10 @@
                                     <span>{{ video.duration }} mins</span>
                                 </div>
                                 <div class="movie-info">
-                                        <span>HD</span>
+                                        <span>{{ video.resolutions}}</span>
                                 </div>
                                 <div class="movie-info">
-                                        <span>16+</span>
+                                        <span>{{ video.ageRating }}+</span>
                                 </div>
                             </div>
                         </div>
