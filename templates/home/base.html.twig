@@ -14,6 +14,7 @@
     <!-- OWL CAROUSEL -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <!-- BOX ICONS -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     {% endblock %}
 </head>
 <body>
@@ -26,8 +27,6 @@
                     <h1>
                         <span>chiller</span>
 
-                        <span>chiller</span>
-                        <span>chiller</span>
 
                     </h1>
                 </div>
@@ -37,16 +36,23 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/videos">Movies</a></li>
                 <li><a href="/series">Series</a></li>
-                <li style="position: relative;display: inline-block;"><i class='bx bx-search'style="position: absolute;left: 10px;top: 50%;transform: translateY(-50%);font-size: 18px;color: #CED2D6;"></i><input type="text" class="search-film" style="padding-left: 30px;color: #F5F5F5;" placeholder="Search"></li>
+                <li style="position: relative;display: inline-block;">
+                    <form action="{{ path('video_search') }}" method="get">
+                    <i class='bx bx-search'style="position: absolute;left: 10px;top: 50%;transform: translateY(-50%);font-size: 18px;color: #CED2D6;"></i>
+                    <input type="text" name="q" class="search-film" style="padding-left: 30px;color: #F5F5F5;" placeholder="Search">
+                    </form>
+                    </li>
                 {% if username is not null %}
-                    <li><div class="dropdown">
+                    <li>
+                        <div class="dropdown">
                         <a class="dropbtn"><i class='bx bx-user'></i>{{ username }}</a>
                         <div style="border-radius: 8px" class="dropdown-content">
                             <a href="#">account</a>
                             <a href="#">admin page</a>
                             <a href="#">logout</a>
                         </div>
-                    </div></li>
+                    </div>
+                    </li>
                 {% else %}
                     <li><a href="/login">Sign in</a></li>
                 {% endif %}
@@ -115,628 +121,85 @@
 </div>
 <!-- END HERO SECTION -->
 
-<!-- LATEST MOVIES SECTION -->
+<!-- BEST MOVIES SECTION -->
 <div class="section">
     <div class="container">
         <div class="section-header">
-            latest movies
+            Best movies
         </div>
         <div class="movies-slide carousel-nav-center owl-carousel">
+            {% for video in videos %}
             <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://cdn.shopify.com/s/files/1/0037/8008/3782/products/IMG_7259_1024x1024@2x.jpg?v=1640349274" alt="">
+            <a href="/video/{{video.id}}" class="movie-item">
+                <img src="{{ video.poster }}" alt="">
                 <div class="movie-item-content">
                     <div class="movie-item-title">
-                        Theatre of the dead
+                        {{ video.title }}
                     </div>
                     <div class="movie-infos">
                         <div class="movie-info">
                             <i class="bx bxs-star"></i>
-                            <span>9.5</span>
+                            <span>{{ video.rating }}</span>
                         </div>
                         <div class="movie-info">
                             <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
+                            <span>{{ video.duration }}</span>
                         </div>
                         <div class="movie-info">
-                            <span>HD</span>
+                            <span>{{ video.resolutions }}</span>
                         </div>
                         <div class="movie-info">
-                            <span>16+</span>
+                            <span>{{ video.ageRating }}+</span>
                         </div>
                     </div>
                 </div>
             </a>
             <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://m.media-amazon.com/images/M/MV5BMTAyMjQ3OTAxMzNeQTJeQWpwZ15BbWU4MDU0NzA1MzAx._V1_FMjpg_UX1000_.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Transformer
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img6.acsta.net/pictures/21/08/10/12/20/4633954.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Resident Evil
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Captain Marvel
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Hunter Killer
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Bloodshot
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Call
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
+            {% endfor %}
         </div>
     </div>
 </div>
-<!-- END LATEST MOVIES SECTION -->
+<!-- END BEST MOVIES SECTION -->
 
-<!-- LATEST SERIES SECTION -->
+<!-- BEST SERIES SECTION -->
 <div class="section">
     <div class="container">
         <div class="section-header">
-            latest series
+            Best series
         </div>
         <div class="movies-slide carousel-nav-center owl-carousel">
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
+            {% for serie in series %}
+            <!-- SERIE ITEM -->
+            <a href="/serie/{{serie.id}}" class="movie-item">
+                <img src="{{ serie.poster }}" alt="">
                 <div class="movie-item-content">
                     <div class="movie-item-title">
-                        Supergirl
+                        {{ serie.name}}
                     </div>
                     <div class="movie-infos">
                         <div class="movie-info">
                             <i class="bx bxs-star"></i>
-                            <span>9.5</span>
+                            <span>{{ serie.rating }}</span>
                         </div>
                         <div class="movie-info">
                             <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
+                            <span>{{ serie.releaseYear }}</span>
                         </div>
                         <div class="movie-info">
-                            <span>HD</span>
+                            <span>{{ serie.resolution }}</span>
                         </div>
                         <div class="movie-info">
-                            <span>16+</span>
+                            <span>{{ serie.ageRating }}</span>
                         </div>
                     </div>
                 </div>
             </a>
             <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Stranger Things
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Star Trek
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Penthouses
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Mandalorian
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        The Falcon And The Winter Soldier
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Wanda Vision
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
+            {% endfor %}
         </div>
     </div>
 </div>
 <!-- END LATEST SERIES SECTION -->
-
-<!-- LATEST CARTOONS SECTION -->
-<div class="section">
-    <div class="container">
-        <div class="section-header">
-            latest cartoons
-        </div>
-        <div class="movies-slide carousel-nav-center owl-carousel">
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Demon Slayer
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Croods
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Dragonball
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Over The Moon
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Weathering With You
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Your Name
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-            <!-- MOVIE ITEM -->
-            <a href="#" class="movie-item">
-                <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-                <div class="movie-item-content">
-                    <div class="movie-item-title">
-                        Coco
-                    </div>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span>9.5</span>
-                        </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span>120 mins</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>HD</span>
-                        </div>
-                        <div class="movie-info">
-                            <span>16+</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- END MOVIE ITEM -->
-        </div>
-    </div>
-</div>
-<!-- END LATEST CARTOONS SECTION -->
-
-<!-- SPECIAL MOVIE SECTION -->
-<div class="section">
-    <div class="hero-slide-item">
-        <img src="https://fr.web.img2.acsta.net/medias/nmedia/18/62/81/09/18784915.jpg" alt="">
-        <div class="overlay"></div>
-        <div class="hero-slide-item-content">
-            <div class="item-content-wrapper">
-                <div class="item-content-title">
-                    Transformer
-                </div>
-                <div class="movie-infos">
-                    <div class="movie-info">
-                        <i class="bx bxs-star"></i>
-                        <span>9.5</span>
-                    </div>
-                    <div class="movie-info">
-                        <i class="bx bxs-time"></i>
-                        <span>120 mins</span>
-                    </div>
-                    <div class="movie-info">
-                        <span>HD</span>
-                    </div>
-                    <div class="movie-info">
-                        <span>16+</span>
-                    </div>
-                </div>
-                <div class="item-content-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, possimus eius. Deserunt non odit, cum vero reprehenderit laudantium odio vitae autem quam, incidunt molestias ratione mollitia accusantium, facere ab suscipit.
-                </div>
-                <div class="item-action">
-                    <a href="#" class="btn btn-hover">
-                        <i class="bx bxs-right-arrow"></i>
-                        <span>Watch now</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- END SPECIAL MOVIE SECTION -->
     {% endblock %}
 </div>
 <!-- FOOTER SECTION -->
@@ -749,8 +212,7 @@
                         <div class="center" style="top: 60px">
                             <h1>
                                 <span>chiller</span>
-                                <span>chiller</span>
-                                <span>chiller</span>
+
 
                             </h1>
                         </div>

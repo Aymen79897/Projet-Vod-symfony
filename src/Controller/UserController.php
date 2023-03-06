@@ -15,12 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 class UserController extends AbstractController
-{#[Route('/user_list')]
-      public function userList(UserRepository $userRepository)
+{#[Route('/users', name: 'user_list')]
+      public function userList(UserRepository $userRepository): Response
 {
     $users = $userRepository->findAll();
 
-    return $this->render('list.html.twig', [
+    return $this->render('admin/crudUser.html.twig', [
         'users' => $users,
     ]);
 }
@@ -42,6 +42,7 @@ class UserController extends AbstractController
         'form' => $form->createView(),
     ]);
 }
+#[Route('admin/user/{id}/ban', name: 'ban')]
     public function banUser(User $user, EntityManagerInterface $em)
     {
         if($this->isGranted('ROLE_ADMIN')) {
@@ -51,6 +52,17 @@ class UserController extends AbstractController
         }
         return $this->redirectToRoute('user_list');
     }
+    #[Route('admin/user/{id}/unban', name: 'unban')]
+    public function unbanUser(User $user, EntityManagerInterface $em)
+    {
+        if($this->isGranted('ROLE_ADMIN')) {
+            $user->setIsBanned(false);
+            $em->persist($user);
+            $em->flush();
+        }
+        return $this->redirectToRoute('user_list');
+    }
+
     #[Route('/login',name: 'app_user_login')]
     public function login()
     {

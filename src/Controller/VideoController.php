@@ -47,16 +47,22 @@ class VideoController extends AbstractController
         return $this->render('admin/addVideos.html.twig', ['form' => $form->createView()]);
     }
     #[Route('/video/{id}', name: "video_show")]
-    public function showvid(Video $video){
+    public function show(Video $video): Response
+    {
+        $is_favorite = false;
+
         $username = null;
         $user = $this->getUser();
         if ($user) {
             $username = $user->getUsername();
+            $is_favorite = $user->hasFavorite($video);
         }
-        return $this->render('movies/landingPage.html.twig',['video' => $video,'username'=>$username],  );
+        var_dump($is_favorite);
+
+        return $this->render('movies/landingPage.html.twig',['video' => $video,'username'=>$username,'is_favorite' => $is_favorite,],  );
     }
         #[Route('/video/play/{id}',name:"video_detail",methods: ["GET","POST"])]
-        public function show(Video $video, Request $request,EntityManagerInterface $entityManager,CommentRepository $commentRepository): Response
+        public function play(Video $video, Request $request,EntityManagerInterface $entityManager,CommentRepository $commentRepository): Response
         {
 
 
@@ -104,13 +110,9 @@ class VideoController extends AbstractController
             return $this->redirectToRoute('video_detail', ['id' => $video->getId()]);
         }
 
-        return $this->render('video/edit.html.twig', ['form' => $form->createView()]);
+        return $this->render('admin/edit.html.twig', ['form' => $form->createView()]);
     }
-    /*#[Route('/video/play/{id}',name: 'video_play')]
-    public function play(Video $video): Response
-    {
-        return $this->render('movies/videoPage.html.twig', ['video' => $video]);
-    }*/
+
  #[Route('/video/delete/{id}',name: 'video_delete')]
     public function delete(Video $video,EntityManagerInterface $entityManager): Response
     {
@@ -133,14 +135,11 @@ class VideoController extends AbstractController
 
         return $this->redirectToRoute('video_detail', ['id' => $comment->getVideo()->getId()]);
     }
-    #[Route('/video/{id}/favorite', name: 'video_favorite', methods: ['POST'])]
+    #[Route('/video/{id}/favorite', name: 'video_favorite')]
     public function toggleFavorite(Video $video, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
 
-        if (!$user) {
-            return $this->json(['error' => 'You must be logged in to favorite a video.'], 401);
-        }
         $user = ($user instanceof User) ? $user : null;
 
 
@@ -160,8 +159,37 @@ class VideoController extends AbstractController
             $entityManager->remove($favorite);
             $entityManager->flush();
         }
+        return $this->redirectToRoute('video_show', ['id' => $video->getId()]);
+    }
+    #[Route('/videos/search', name: 'video_search')]
+    public function search(Request $request, VideoRepository $videoRepository): Response
+    {
+        $username = null;
+        $user = $this->getUser();
+        if ($user) {
+            $username = $user->getUsername();
+        }
+        $query = $request->query->get('q');
+        if (empty($query)) {
+            $referer = $request->headers->get('referer');
+            return $this->redirect($referer);
+        }
+        $videos = $videoRepository->search($query);
 
-        return $this->json(['success' => true]);
+        return $this->render('home/searchResult.html.twig', [
+            'videos' => $videos,
+            'query' => $query,
+            'username' => $username
+        ]);
+    }
+    #[Route('/admin/video')]
+    public function videoAdminIndex(VideoRepository $videoRepository): Response
+    {
+        $videos = $videoRepository->findAll();
+
+        return $this->render('admin/crudVideos.html.twig', [
+            'videos' => $videos
+        ]);
     }
 
 }

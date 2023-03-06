@@ -34,13 +34,25 @@
                     </div>
                     <div class="item-action">
                         <a href="/video/play/{{video.id}}" class="btn btn-hover">
-                            <i class="bx bxs-right-arrow"></i>
+                            <i style="margin-right: 5px" class="bx bxs-right-arrow"></i>
                             <span>Watch now</span>
                         </a>
-                        <a href="#" class="btn btn-hover">
-                            <i class="bx bxs-heart"></i>
-                            <span> add to favorite</span>
-                        </a>
+                        <br>
+                        <br>
+                        {% if username %}
+                            {% if is_favorite %}
+                                <a href="{{ path('video_favorite', {'id': video.id}) }}" class="btn btn-hover">
+                                    <i style="margin-right: 5px" class='bx bxs-star' ></i>
+                                    <span>Remove from favorites</span>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('video_favorite', {'id': video.id}) }}" class="btn btn-hover">
+                                    <i style="margin-right: 5px" class='bx bx-star' ></i>
+                                    <span>Add to favorites</span>
+
+                                </a>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

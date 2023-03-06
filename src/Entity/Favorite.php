@@ -13,38 +13,46 @@ class Favorite
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'favorites')]
-    private ?Video $Video = null;
 
     #[ORM\ManyToOne(inversedBy: 'favorites')]
-    private ?User $User = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?user $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'favorites')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Video $video = null;
+
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
     public function getVideo(): ?Video
     {
-        return $this->Video;
+        return $this->video;
     }
 
-    public function setVideo(?Video $Video): self
+    public function setVideo(?Video $video): self
     {
-        $this->Video = $Video;
+        $this->video = $video;
 
         return $this;
     }
 
-    public function getUser(): \App\Entity\User
-    {
-        return $this->User;
-    }
 
-    public function setUser(\App\Entity\User $User): self
-    {
-        $this->User = $User;
-
-        return $this;
-    }
 }

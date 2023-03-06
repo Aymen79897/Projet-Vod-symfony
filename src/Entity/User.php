@@ -30,15 +30,27 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     private ?bool $is_banned = False;
     private  ?string $plainPassword;
 
+    #[ORM\Column(type: 'json')]
+    private  $roles = [];
+
+    #[ORM\OneToMany(mappedBy: 'Comment', targetEntity: Comment::class)]
+    private Collection $Comment;
+
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Comment::class)]
+    private Collection $comments;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class)]
+    private Collection $favorites;
 
 
 
 
     public function __construct()
     {
-        $this->favorites = new ArrayCollection();
+
         $this->Comment = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -66,17 +78,7 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     {
         $this->plainPassword = $plainPassword;
     }
-    #[ORM\Column(type: 'json')]
-    private  $roles = [];
 
-    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Favorite::class)]
-    private Collection $favorites;
-
-    #[ORM\OneToMany(mappedBy: 'Comment', targetEntity: Comment::class)]
-    private Collection $Comment;
-
-    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Comment::class)]
-    private Collection $comments;
 
     public function setRoles(array $roles): static
     {
@@ -151,39 +153,6 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         return $this->getEmail();
     }
 
-    /**
-     * @return Collection<int, Favorite>
-     */
-    public function getFavorites(): Collection
-    {
-        return $this->favorites;
-    }
-
-    public function addFavorite(Favorite $favorite): self
-    {
-        if (!$this->favorites->contains($favorite)) {
-            $this->favorites->add($favorite);
-            $favorite->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFavorite(Favorite $favorite): self
-    {
-        if ($this->favorites->removeElement($favorite)) {
-            // set the owning side to null (unless already changed)
-            if ($favorite->getUser() === $this) {
-                $favorite->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Comment>
-     */
     public function getComment(): Collection
     {
         return $this->Comment;
@@ -217,5 +186,44 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+
+    /**
+     * @return Collection<int, Favorite>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+            $favorite->setUser($this);
+        }
+
+        return $this;
+    }
+    public function hasFavorite(Video $video): bool
+    {
+        foreach ($this->favorites as $favorite) {
+            if ($favorite->getVideo() === $video) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->removeElement($favorite)) {
+            // set the owning side to null (unless already changed)
+            if ($favorite->getUser() === $this) {
+                $favorite->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -19,7 +19,7 @@
             {% else %}
                     {% for video in serie.video %}
                         <a href="/video/{{video.id}}" class="movie-item">
-                            <img src="{{ video.thumbnail }}" alt="">
+                            <img src="{{ video.poster }}" alt="">
                             <div class="movie-item-content">
                                 <div class="movie-item-title">
                                     {{ video.title }}
@@ -37,7 +37,7 @@
                                         <span>{{ video.releaseYear }}</span>
                                     </div>
                                     <div class="movie-info">
-                                        <span>16+</span>
+                                        <span>{{ video.ageRating }}+    </span>
                                     </div>
                                 </div>
                             </div>

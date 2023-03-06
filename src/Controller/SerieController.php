@@ -63,7 +63,7 @@ class SerieController extends AbstractController
     }
 
 
-    #[Route('/serie/{id}/edit', name: 'serie_edit', methods: ["GET,POST"])]
+    #[Route('/serie/{id}/edit', name: 'serie_edit')]
     public function edit(Request $request, Serie $serie, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SerieType::class, $serie);
@@ -77,19 +77,19 @@ class SerieController extends AbstractController
             return $this->redirectToRoute('serie_show', ['id' => $serie->getId()]);
         }
 
-        return $this->render('serie/edit.html.twig', [
+        return $this->render('admin/serieEdit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/serie/{id}/delete', name: 'serie_create', methods: ["GET,POST"])]
+    #[Route('/serie/{id}/delete', name: 'serie_delete')]
     public function delete(Request $request, Serie $serie, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$serie->getId(), $request->request->get('_token'))) {
+
             $entityManager->remove($serie);
             $entityManager->flush();
 
             $this->addFlash('success', 'Serie deleted successfully.');
-        }
+
 
         return $this->redirectToRoute('serie_index');
     }
