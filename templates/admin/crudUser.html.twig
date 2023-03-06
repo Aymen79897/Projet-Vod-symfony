@@ -25,8 +25,11 @@
                     <td style="text-align: center;">{{ user.username }}</td>
                     <td>{{ user.email }}</td>
                     <td style="text-align: center;" >
-                        <i class='bx bx-low-vision'></i>
-                        <i style="color: hsl(358, 79%, 66%)" class='bx bx-trash'></i>
+                        {% if user.banned %}
+                            <a href="{{ path('unban', {'id': user.id}) }}">Unban</a>
+                        {% else %}
+                            <a href="{{ path('ban', {'id': user.id}) }}">Ban</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

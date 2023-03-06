@@ -43,23 +43,23 @@ class UserController extends AbstractController
     ]);
 }
 #[Route('admin/user/{id}/ban', name: 'ban')]
-    public function banUser(User $user, EntityManagerInterface $em)
+    public function banUser(User $user, EntityManagerInterface $em):Response
     {
-        if($this->isGranted('ROLE_ADMIN')) {
-            $user->setIsBanned(true);
+
+            $user->setBanned(true);
             $em->persist($user);
             $em->flush();
-        }
+
         return $this->redirectToRoute('user_list');
     }
     #[Route('admin/user/{id}/unban', name: 'unban')]
-    public function unbanUser(User $user, EntityManagerInterface $em)
+    public function unbanUser(User $user, EntityManagerInterface $em) :Response
     {
-        if($this->isGranted('ROLE_ADMIN')) {
-            $user->setIsBanned(false);
+
+            $user->setBanned(false);
             $em->persist($user);
             $em->flush();
-        }
+
         return $this->redirectToRoute('user_list');
     }
 
@@ -69,6 +69,7 @@ class UserController extends AbstractController
         $form = $this->createForm(LoginType::class);
 
         if ($form->isSubmitted() && $form->isValid()){
+            $user =  $this->getUser();
             return $this->redirectToRoute('home');
         }
         return $this->render('user/login.html.twig', [
@@ -79,5 +80,11 @@ class UserController extends AbstractController
     public function logout()
     {
 
+
+    }
+    #[Route('/banned',name: 'banned')]
+    public function banished(): Response
+    {
+    return $this->render('user/banned.html.twig');
     }
 }

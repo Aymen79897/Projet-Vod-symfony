@@ -26,6 +26,8 @@
                 <div class="center">
                     <h1>
                         <span>chiller</span>
+                        <span>chiller</span>
+                        <span>chiller</span>
 
 
                     </h1>
@@ -48,8 +50,10 @@
                         <a class="dropbtn"><i class='bx bx-user'></i>{{ username }}</a>
                         <div style="border-radius: 8px" class="dropdown-content">
                             <a href="#">account</a>
-                            <a href="#">admin page</a>
-                            <a href="#">logout</a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <a href="/admin">admin page</a>
+                            {% endif %}
+                            <a href="/logout">logout</a>
                         </div>
                     </div>
                     </li>
@@ -212,6 +216,8 @@
                         <div class="center" style="top: 60px">
                             <h1>
                                 <span>chiller</span>
+                                <span>chiller</span>
+                                <span>chiller</span>
 
 
                             </h1>
@@ -231,19 +237,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8 col-md-6 col-sm-12">
-                <div class="row">
-                    <div class="col-3 col-md-6 col-sm-6">
-                        <div class="content">
-                            <p><b>name</b></p>
-                            <ul class="footer-menu">
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">My profile</a></li>
-                                <li><a href="#">Pricing plans</a></li>
-                                <li><a href="#">Contacts</a></li>
-                            </ul>
-                        </div>
-                    </div>
                     <div class="col-3 col-md-6 col-sm-6">
                         <div class="content">
                             <p><b>backend developer</b></p>

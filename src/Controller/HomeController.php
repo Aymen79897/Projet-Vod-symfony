@@ -19,6 +19,9 @@ public function index(VideoRepository $videoRepository,SerieRepository $serieRep
         $user = $this->getUser();
         if ($user) {
             $username = $user->getUsername();
+            if($user->isBanned()){
+                return $this->redirectToRoute('banned');
+            }
         }
         return $this->render('home/base.html.twig', ['username' => $username,'videos' => $videos,'series' => $series]);
     }

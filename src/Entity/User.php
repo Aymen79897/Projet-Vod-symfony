@@ -26,8 +26,6 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column]
-    private ?bool $is_banned = False;
     private  ?string $plainPassword;
 
     #[ORM\Column(type: 'json')]
@@ -41,6 +39,9 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class)]
     private Collection $favorites;
+
+    #[ORM\Column]
+    private ?bool $banned = false;
 
 
 
@@ -111,17 +112,7 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isIsBanned(): ?bool
-    {
-        return $this->is_banned;
-    }
 
-    public function setIsBanned(bool $is_banned): self
-    {
-        $this->is_banned = $is_banned;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Comment>
@@ -223,6 +214,18 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
                 $favorite->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isBanned(): ?bool
+    {
+        return $this->banned;
+    }
+
+    public function setBanned(bool $banned): self
+    {
+        $this->banned = $banned;
 
         return $this;
     }
