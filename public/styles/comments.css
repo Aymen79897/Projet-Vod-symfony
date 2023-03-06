@@ -1,11 +1,10 @@
-
 :root {
     --Moderate-blue: hsl(238, 40%, 52%);
     --Soft-Red: hsl(358, 79%, 66%);
     --Light-grayish-blue: hsl(239, 57%, 85%);
     --Pale-red: hsl(357, 100%, 86%);
 
-    --Dark-blue: hsl(212, 24%, 26%);
+    --Dark-blue: #666158;
     --Grayish-Blue: hsl(211, 10%, 45%);
     --Light-gray: hsl(223, 19%, 93%);
     --Very-light-gray: hsl(228, 33%, 97%);
@@ -15,14 +14,20 @@
 p{
     line-height: 1.5;
 }
-
 .bu-primary{
-    background-color: var(--Moderate-blue);
-    color: var(--White);
     border: none;
+    outline: none;
+    height: 45px;
+    background: #ececec;
+    border-radius: 5px;
+    transition: .4s;
     padding: .75rem 1.5rem;
-    border-radius: 4px;
 }
+.bu-primary:hover{
+    background: #221f1f;
+    color: #fff;
+}
+
 .comment-section{
     padding: 0 1rem;
 }
@@ -37,7 +42,7 @@ p{
 }
 .comment-section{
 
-    max-width: 75ch;
+    max-width: 100ch;
     margin: auto;
     margin-top: 1rem;
 }
@@ -52,6 +57,7 @@ p{
     grid-template-columns: auto 1fr auto;
     gap: 1.5rem;
     row-gap: 1rem;
+    border: 1px solid #ccc;
 
 }
 .c-text{
@@ -86,7 +92,7 @@ p{
 .c-controls a{
     align-items: center;
 }
-.edit , .reply{
+.edit{
     color: var(--Moderate-blue);
 }
 .delete{
@@ -95,32 +101,30 @@ p{
 .control-icon{
     margin-right: .5rem;
 }
-.reply-input{
-    display: grid;
+.input-group {
     margin-bottom: 1rem;
-    grid-template-areas: "avatar input button";
-    grid-template-columns: min-content auto min-content;
-    justify-items: center;
-    gap: 1rem;
-    min-height: 9rem;
-}
-.reply-input img{
-    grid-area: avatar;
-    height: 2.5rem;
-    width: 2.5rem;
-}
-.reply-input button{
-    grid-area: button;
-    align-self: flex-start;
-}
-.reply-input textarea{
-    grid-area: input;
-    padding: 1rem;
+    display: flex;
+    align-items: center;
     width: 100%;
-    border: 1px solid var(--Light-gray);
-    border-radius: 4px;
+    padding: 10px;
+    padding-top: 0;
+    border-radius: 8px;
+}
+.input-group-icon {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+textarea {
+    width: 100ch;
+    height: 100px;
+    padding: 10px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
     resize: none;
 }
+
 @media screen and (max-width:640px) {
     .container{
         padding: .75rem;
@@ -135,7 +139,6 @@ p{
             "comment comment comment"
             "score ... controls"
     ;
-
         gap: .5rem;
     }
     .c-score{
@@ -160,29 +163,5 @@ p{
         padding: .5rem;
         align-self: stretch;
     }
-}
-
-
-.modal-wrp{
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0,0,0,.3);
-}
-
-.modal{
-    padding: 1.5rem;
-    max-width: 32ch;
-    display: grid;
-    gap: 1rem;
-    grid-template-areas:
-    "heading heading"
-    "body body"
-    "no yes";
 }
 
