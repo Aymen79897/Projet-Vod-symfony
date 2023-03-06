@@ -6,7 +6,9 @@
     --nav-height: 80px;
     --space-top: 30px;
 }
-
+::placeholder {
+    color: #CED2D6;
+}
 * {
     padding: 0;
     margin: 0;
@@ -98,6 +100,58 @@ img {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.center{
+    position:absolute;
+    top:40px;
+    left:120px;
+    transform:prespective(1000px) translate(-50%,-50%);
+    transform:skewY(0deg);
+    transition:0.5s;
+}
+
+.center:hover{
+    transform:prespective(1000px) translate(-50%,-50%);
+    transform:skewY(0deg);
+}
+
+.center h1 span{
+    position:absolute;
+    top:0;
+    left:0;
+    transform:translate(-50%,-50%);
+    margin:0;
+    padding:0;
+    text-transform:uppercase;
+    font-size:40px;
+    color:#fff;
+    transform-style:preserve-3d;
+    transition:0.8s;
+}
+.center h1 span:nth-child(1){
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+
+
+.center h1 span:nth-child(2){
+    color:#5E17EB;
+    transform:translate(-50%,-50%) skewX(-60deg);
+    left:-2px;
+    clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%);
+}
+
+.center h1 span:nth-child(3){
+    transform:translate(-50%,-50%) skewY(0deg);
+    left:-4px;
+    clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+.center:hover h1 span:nth-child(2),
+.center:hover h1 span:nth-child(3){
+    transform:translate(-50%,-50%) skewX(0deg);
+    left:0;
+    color:#fff;
+}
 .nav-wrapper {
     position: fixed;
     top: 0;
@@ -117,7 +171,7 @@ img {
 }
 
 .nav a {
-    color: #DDDDDD;
+
 }
 
 .logo {
@@ -139,13 +193,48 @@ img {
 .nav-menu a {
     text-transform: uppercase;
     font-weight: 700;
+    color: #CED2D6;
+}
+.nav-menu a:hover {
+    color: #FFFFFF;
+}
+.dropbtn {
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #CED2D6;
 }
 
-.nav-menu a:hover {
-    color: white;
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+    border-radius: 8px;
+    margin-right: 30px;
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+
+/* Style the links inside the dropdown */
+.dropdown-content a {
+
+    color: #CED2D6;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: black;
+
+}
+
+/* Style the dropdown on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+
 }
 .btn {
-    color: #ffffff;
+    border: none;
+    outline: none;
+    height: 45px;
+    border-radius: 5px;
+    transition: .4s;
     padding: 0.25rem 1.5rem;
     text-transform: uppercase;
     font-size: 1.25rem;
@@ -153,6 +242,12 @@ img {
     display: inline-flex;
     position: relative;
     align-items: center;
+}
+.btn-hover:hover {
+
+    background: #F5F5F5;
+    color: #fb3958;
+
 }
 
 .search-film{
@@ -258,7 +353,7 @@ img {
 }
 .hero-slide-item-image iframe {
     width: 80%;
-    height: 60%;
+    height: 50%;
     border-radius: 10px 10px 10px 10px;
 }
 .hero-slide-item-image img {
@@ -290,7 +385,7 @@ img {
 .item-content-title {
     font-size: 5rem;
     line-height: 5rem;
-    font-weight: 900;
+    font-weight: 600;
 }
 
 .movie-infos {
@@ -453,7 +548,7 @@ img {
     text-transform: uppercase;
     font-size: 1.5rem;
     font-weight: 700;
-    border-left: 4px solid var(--main-color);
+    /*border-bottom: 0.01em solid var(--main-color);*/
     display: flex;
     align-items: center;
 }
